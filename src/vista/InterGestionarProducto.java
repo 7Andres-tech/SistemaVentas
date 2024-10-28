@@ -21,10 +21,7 @@ import javax.swing.table.DefaultTableModel;
 import modelo.Categoria;
 import modelo.Producto;
 
-/**
- *
- * @author ediso
- */
+
 public class InterGestionarProducto extends javax.swing.JInternalFrame {
 
     private int idProducto;

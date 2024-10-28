@@ -39,6 +39,7 @@ public class InterFacturacion extends javax.swing.JInternalFrame {
     private double subtotal = 0.0;//cantidad por precio
     private double descuento = 0.0;
     private double totalPagar = 0.0;
+    public static int porcentajeDescuento = 0;
 
     //variables para calculos globales
     private double subtotalGeneral = 0.0;
@@ -50,6 +51,7 @@ public class InterFacturacion extends javax.swing.JInternalFrame {
 
     public InterFacturacion() {
         initComponents();
+        configurarComboDescuento();
         this.setSize(new Dimension(800, 600));
         this.setTitle("Facturacion");
 
@@ -100,7 +102,7 @@ public class InterFacturacion extends javax.swing.JInternalFrame {
             this.modeloDatosProductos.setValueAt(listaProductos.get(i).getSubTotal(), i, 4);
             this.modeloDatosProductos.setValueAt(listaProductos.get(i).getDescuento(), i, 5);
             this.modeloDatosProductos.setValueAt(listaProductos.get(i).getTotalPagar(), i, 6);
-            this.modeloDatosProductos.setValueAt("Eliminar", i, 8);//aqui luego poner un boton de eliminar
+            this.modeloDatosProductos.setValueAt("Eliminar", i, 7);//aqui luego poner un boton de eliminar
         }
         //añadir al Jtable
         jTable_productos.setModel(modeloDatosProductos);
@@ -140,6 +142,7 @@ public class InterFacturacion extends javax.swing.JInternalFrame {
         txt_efectivo = new javax.swing.JTextField();
         txt_cambio = new javax.swing.JTextField();
         jButton_calcular_cambio = new javax.swing.JButton();
+        jComboBox_descuento = new javax.swing.JComboBox<>();
         jButton_RegistrarVenta = new javax.swing.JButton();
         jLabel_wallpaper = new javax.swing.JLabel();
 
@@ -277,6 +280,10 @@ public class InterFacturacion extends javax.swing.JInternalFrame {
         });
         jPanel2.add(jButton_calcular_cambio, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 150, 130, 50));
 
+        jComboBox_descuento.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jComboBox_descuento.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "0%", "5%", "10%", "15%", "20%", "25%", "30%", "35%", "40%", "45%", "50%" }));
+        jPanel2.add(jComboBox_descuento, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 50, 130, -1));
+
         getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 330, 380, 210));
 
         jButton_RegistrarVenta.setBackground(new java.awt.Color(51, 255, 255));
@@ -308,7 +315,7 @@ public class InterFacturacion extends javax.swing.JInternalFrame {
             ResultSet rs = st.executeQuery(sql);
 
             if (rs.next()) {
-                jComboBox_cliente.setSelectedItem(rs.getString("nombre") + " " + rs.getString("direccion"));
+                jComboBox_cliente.setSelectedItem(rs.getString("nombre") + " " + rs.getString("apellido"));
             } else {
                 jComboBox_cliente.setSelectedItem("Seleccione cliente:");
                 JOptionPane.showMessageDialog(null, "¡DNI de cliente incorrecta o no encontrada!");
@@ -341,16 +348,24 @@ public class InterFacturacion extends javax.swing.JInternalFrame {
                         if (cantidad <= cantidadProductoBBDD) {
 
                             subtotal = precioUnitario * cantidad;
-                            totalPagar = subtotal + descuento;
 
-                            //redondear decimales
-                            subtotal = (double) Math.round(subtotal * 100) / 100;
-                            descuento = (double) Math.round(descuento * 100) / 100;
-                            totalPagar = (double) Math.round(totalPagar * 100) / 100;
+                            // Obtener el porcentaje de descuento seleccionado
+                            String descuentoSeleccionado = jComboBox_descuento.getSelectedItem().toString();
+                            int porcentajeDescuento = Integer.parseInt(descuentoSeleccionado.replace("%", ""));
 
+                            // Calcular el descuento aplicando el porcentaje al subtotal
+                            descuento = subtotal * porcentajeDescuento / 100.0;
+
+                            // Calcular el total a pagar aplicando el descuento
+                            totalPagar = subtotal - descuento;
+
+                            // Redondear decimales
+                            subtotal = Math.round(subtotal * 100) / 100.0;
+                            descuento = Math.round(descuento * 100) / 100.0;
+                            totalPagar = Math.round(totalPagar * 100) / 100.0;
                             //se crea un nuevo producto
                             producto = new DetalleVenta(auxIdDetalle,
-                                    1, 
+                                    1,
                                     idProducto,
                                     nombre,
                                     Integer.parseInt(txt_cantidad.getText()),
@@ -358,14 +373,13 @@ public class InterFacturacion extends javax.swing.JInternalFrame {
                                     subtotal,
                                     descuento,
                                     totalPagar,
-                                    1//estado
+                                    1 // estado
                             );
                             //añadir a la lista
                             listaProductos.add(producto);
                             JOptionPane.showMessageDialog(null, "Producto Agregado");
                             auxIdDetalle++;
-                            txt_cantidad.setText("");//limpiar el campo
-                            //volver a cargar combo productos
+                            txt_cantidad.setText("");
                             this.CargarComboProductos();
                             this.CalcularTotalPagar();
                             txt_efectivo.setEnabled(true);
@@ -436,7 +450,7 @@ public class InterFacturacion extends javax.swing.JInternalFrame {
 
     private void jButton_RegistrarVentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_RegistrarVentaActionPerformed
 
-        Ventas cabeceraVenta = new Ventas();
+        Ventas venta = new Ventas();
         DetalleVenta detalleVenta = new DetalleVenta();
         Ctrl_RegistrarVenta controlVenta = new Ctrl_RegistrarVenta();
 
@@ -449,16 +463,16 @@ public class InterFacturacion extends javax.swing.JInternalFrame {
 
                 //metodo para obtener el id del cliente
                 this.ObtenerIdCliente();
-                //registrar cabecera
-                cabeceraVenta.setIdCabeceraventa(0);
-                cabeceraVenta.setIdCliente(idCliente);
-                cabeceraVenta.setValorPagar(Double.parseDouble(txt_total_pagar.getText()));
-                cabeceraVenta.setFechaVenta(fechaActual);
-                cabeceraVenta.setEstado(1);
 
-                if (controlVenta.guardar(cabeceraVenta)) {
+                venta.setIdVentas(0);
+                venta.setIdCliente(idCliente);
+                venta.setValorPagar(Double.parseDouble(txt_total_pagar.getText()));
+                venta.setFechaVenta(fechaActual);
+                venta.setEstado(1);
+
+                if (controlVenta.guardar(venta)) {
                     JOptionPane.showMessageDialog(null, "¡Venta Registrada!");
-                    
+
                     //Generar la factura de venta
                     VentaPDF pdf = new VentaPDF();
                     pdf.DatosCliente(idCliente);
@@ -498,7 +512,7 @@ public class InterFacturacion extends javax.swing.JInternalFrame {
                     listaTablaProductos();
 
                 } else {
-                    JOptionPane.showMessageDialog(null, "¡Error al guardar cabecera de venta!");
+                    JOptionPane.showMessageDialog(null, "¡Error al guardar Venta!");
                 }
             } else {
                 JOptionPane.showMessageDialog(null, "¡Seleccione un producto!");
@@ -516,6 +530,7 @@ public class InterFacturacion extends javax.swing.JInternalFrame {
     private javax.swing.JButton jButton_busca_cliente;
     private javax.swing.JButton jButton_calcular_cambio;
     private javax.swing.JComboBox<String> jComboBox_cliente;
+    private javax.swing.JComboBox<String> jComboBox_descuento;
     private javax.swing.JComboBox<String> jComboBox_producto;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -622,7 +637,7 @@ public class InterFacturacion extends javax.swing.JInternalFrame {
                 nombre = rs.getString("nombre");
                 cantidadProductoBBDD = rs.getInt("cantidad");
                 precioUnitario = rs.getDouble("precio");
-             
+
             }
 
         } catch (SQLException e) {
@@ -674,6 +689,25 @@ public class InterFacturacion extends javax.swing.JInternalFrame {
         }
     }
 
+    private void configurarComboDescuento() {
+        jComboBox_descuento.addActionListener(evt -> {
+            String descuentoSeleccionado = jComboBox_descuento.getSelectedItem().toString();
+
+            if (!descuentoSeleccionado.equalsIgnoreCase("Seleccione descuento")) {
+                // Obtener el porcentaje de descuento seleccionado
+                porcentajeDescuento = Integer.parseInt(descuentoSeleccionado.replace("%", "")); // Actualiza la variable estática
+
+                // Calcular el monto de descuento
+                double descuento = subtotal * porcentajeDescuento / 100;
+                txt_descuento.setText(String.valueOf(descuento));
+
+                // Calcular el nuevo total a pagar
+                totalPagar = subtotal - descuento; // Actualizar la variable estática
+                txt_total_pagar.setText(String.valueOf(totalPagar));
+            }
+        });
+    }
+
     //metodo para restar la cantidad (stock) de los productos vendidos
     private void RestarStockProductos(int idProducto, int cantidad) {
         int cantidadProductosBaseDeDatos = 0;
@@ -696,7 +730,7 @@ public class InterFacturacion extends javax.swing.JInternalFrame {
             PreparedStatement consulta = cn.prepareStatement("update tb_producto set cantidad=? where idProducto = '" + idProducto + "'");
             int cantidadNueva = cantidadProductosBaseDeDatos - cantidad;
             consulta.setInt(1, cantidadNueva);
-            if(consulta.executeUpdate() > 0){
+            if (consulta.executeUpdate() > 0) {
                 //System.out.println("Todo bien");
             }
             cn.close();

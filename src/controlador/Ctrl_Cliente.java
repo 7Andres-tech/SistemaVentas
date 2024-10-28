@@ -10,12 +10,9 @@ import modelo.Cliente;
 
 
 public class Ctrl_Cliente {
-
-    /**
-     * **************************************************
-     * metodo para guardar un nuevo clientw
-     * **************************************************
-     */
+    
+    
+    
     public boolean guardar(Cliente objeto) {
         boolean respuesta = false;
         Connection cn = Conexion.conectar();

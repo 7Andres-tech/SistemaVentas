@@ -1,9 +1,6 @@
 package modelo;
 
-/**
- *
- * @author ediso
- */
+
 public class Mozo {
 
     //Atributos

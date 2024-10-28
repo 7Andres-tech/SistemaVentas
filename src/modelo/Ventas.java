@@ -1,8 +1,6 @@
 package modelo;
 
-/**
- * @author ediso
- */
+
 public class Ventas {
     
     //Atributos
@@ -37,7 +35,7 @@ public class Ventas {
         return idVentas;
     }
 
-    public void setIdCabeceraventa(int idVentas) {
+    public void setIdVentas(int idVentas) {
         this.idVentas = idVentas;
     }
 

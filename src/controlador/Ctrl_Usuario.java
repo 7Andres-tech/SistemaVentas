@@ -10,10 +10,7 @@ import javax.swing.JOptionPane;
 import modelo.Cliente;
 import modelo.Usuario;
 
-/**
- *
- * @author Edison Zambrano - © Programador Fantasma
- */
+
 public class Ctrl_Usuario {
     
     

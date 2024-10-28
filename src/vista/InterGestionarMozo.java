@@ -19,10 +19,7 @@ import javax.swing.table.DefaultTableModel;
 import modelo.Cliente;
 import modelo.Mozo;
 
-/**
- *
- * @author ediso
- */
+
 public class InterGestionarMozo extends javax.swing.JInternalFrame {
 
     private int idMozo = 0;

@@ -1,9 +1,5 @@
 package modelo;
 
-/**
- *
- * @author ediso
- */
 public class Cliente {
 
     //Atributos

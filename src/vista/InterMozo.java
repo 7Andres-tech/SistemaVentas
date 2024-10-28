@@ -5,10 +5,7 @@ import java.awt.Dimension;
 import javax.swing.JOptionPane;
 import modelo.Mozo;
 
-/**
- *
- * @author ediso
- */
+
 public class InterMozo extends javax.swing.JInternalFrame {
 
     public InterMozo() {

@@ -15,10 +15,6 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import modelo.Categoria;
 
-/**
- *
- * @author ediso
- */
 public class InterGestionarCategoria extends javax.swing.JInternalFrame {
 
     private int idCategoria;

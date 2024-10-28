@@ -5,10 +5,7 @@ import javax.swing.JTextField;
 import static vista.FrmMenu.jDesktopPane_menu;
 
 
-/**
- *
- * @author edison Zambrano
- */
+
 public class InterGraficas extends javax.swing.JInternalFrame {
     
     public static String fecha_inicio = "", fecha_fin = "";
@@ -65,11 +62,11 @@ public class InterGraficas extends javax.swing.JInternalFrame {
         });
         getContentPane().add(jButton_Guardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 200, 230, 50));
 
-        jDateChooser_fecha_inicio.setDateFormatString("dd-MMM-yyyy");
+        jDateChooser_fecha_inicio.setDateFormatString("yyyy-MM-dd");
         jDateChooser_fecha_inicio.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         getContentPane().add(jDateChooser_fecha_inicio, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 60, 140, -1));
 
-        jDateChooser_fecha_fin.setDateFormatString("dd-MMM-yyyy");
+        jDateChooser_fecha_fin.setDateFormatString("yyyy-MM-dd");
         jDateChooser_fecha_fin.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         getContentPane().add(jDateChooser_fecha_fin, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 150, 140, -1));
 

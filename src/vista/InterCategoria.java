@@ -5,10 +5,7 @@ import java.awt.Dimension;
 import javax.swing.JOptionPane;
 import modelo.Categoria;
 
-/**
- *
- * @author ediso
- */
+
 public class InterCategoria extends javax.swing.JInternalFrame {
 
     public InterCategoria() {

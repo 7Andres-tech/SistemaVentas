@@ -1,9 +1,6 @@
 package modelo;
 
-/**
- *
- * @author ediso
- */
+
 public class Producto {
     
     //Atributos
@@ -23,18 +20,18 @@ public class Producto {
         this.cantidad = 0;
         this.precio = 0.0;
         this.descripcion = "";
-        this.porcentajeIva = 0;
+       
         this.idCategoria = 0;
         this.estado = 0;
     }
     //Contructor sobrecargado
-    public Producto(int idProducto, String nombre, int cantidad, double precio, String descripcion, int porcentajeIva, int idCategoria, int estado) {
+    public Producto(int idProducto, String nombre, int cantidad, double precio, String descripcion, int idCategoria, int estado) {
         this.idProducto = idProducto;
         this.nombre = nombre;
         this.cantidad = cantidad;
         this.precio = precio;
         this.descripcion = descripcion;
-        this.porcentajeIva = porcentajeIva;
+       
         this.idCategoria = idCategoria;
         this.estado = estado;
     }
@@ -81,13 +78,7 @@ public class Producto {
         this.descripcion = descripcion;
     }
 
-    public int getPorcentajeIva() {
-        return porcentajeIva;
-    }
-
-    public void setPorcentajeIva(int porcentajeIva) {
-        this.porcentajeIva = porcentajeIva;
-    }
+    
 
     public int getIdCategoria() {
         return idCategoria;

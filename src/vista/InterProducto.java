@@ -12,10 +12,7 @@ import java.sql.Statement;
 import javax.swing.JOptionPane;
 import modelo.Producto;
 
-/**
- *
- * @author ediso
- */
+
 public class InterProducto extends javax.swing.JInternalFrame {
 
     int obtenerIdCategoriaCombo = 0;

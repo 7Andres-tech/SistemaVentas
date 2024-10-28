@@ -89,7 +89,7 @@
     </Component>
     <Component class="com.toedter.calendar.JDateChooser" name="jDateChooser_fecha_inicio">
       <Properties>
-        <Property name="dateFormatString" type="java.lang.String" value="dd-MMM-yyyy"/>
+        <Property name="dateFormatString" type="java.lang.String" value="yyyy-MM-dd"/>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Segoe UI" size="12" style="1"/>
         </Property>
@@ -102,7 +102,7 @@
     </Component>
     <Component class="com.toedter.calendar.JDateChooser" name="jDateChooser_fecha_fin">
       <Properties>
-        <Property name="dateFormatString" type="java.lang.String" value="dd-MMM-yyyy"/>
+        <Property name="dateFormatString" type="java.lang.String" value="yyyy-MM-dd"/>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Segoe UI" size="12" style="1"/>
         </Property>

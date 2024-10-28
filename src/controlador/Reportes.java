@@ -21,10 +21,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
 
-/**
- *
- * @author Edison Zambrano
- */
 public class Reportes {
 
     /* ********************************************************************
@@ -34,9 +30,9 @@ public class Reportes {
         Document documento = new Document();
         try {
             String ruta = System.getProperty("user.home");
-            PdfWriter.getInstance(documento, new FileOutputStream(ruta + "C:\\Users\\Andres\\Desktop\\reporteCliente.pdf"));
+            PdfWriter.getInstance(documento, new FileOutputStream(ruta + "/Desktop/Reporte_Clientes.pdf"));
 
-            Image header = Image.getInstance("src/img/header1.jpg");
+            Image header = Image.getInstance("src/img/header.png");
             header.scaleToFit(650, 1000);
             header.setAlignment(Chunk.ALIGN_CENTER);
             //formato al texto
@@ -78,7 +74,7 @@ public class Reportes {
                 System.out.println("Error 4 en: " + e);
             }
             documento.close();
-            
+
             JOptionPane.showMessageDialog(null, "Reporte creado");
 
         } catch (DocumentException e) {
@@ -89,7 +85,7 @@ public class Reportes {
             System.out.println("Error 3 en: " + ex);
         }
     }
-    
+
     /* ********************************************************************
     * metodo para crear reportes de los productos registrados en el sistema
     *********************************************************************** */
@@ -98,13 +94,13 @@ public class Reportes {
         try {
             String ruta = System.getProperty("user.home");
             PdfWriter.getInstance(documento, new FileOutputStream(ruta + "/Desktop/Reporte_Productos.pdf"));
-            Image header = Image.getInstance("src/img/header1.jpg");
+            Image header = Image.getInstance("src/img/header.png");
             header.scaleToFit(650, 1000);
             header.setAlignment(Chunk.ALIGN_CENTER);
             //formato al texto
             Paragraph parrafo = new Paragraph();
             parrafo.setAlignment(Paragraph.ALIGN_CENTER);
-            parrafo.add("Reporte creado por \nEdison Zambrano © Programador Fantasma\n\n");
+            parrafo.add("Reporte creado por \nPersonal de Naranja Mecánica\n\n");
             parrafo.setFont(FontFactory.getFont("Tahoma", 18, Font.BOLD, BaseColor.DARK_GRAY));
             parrafo.add("Reporte de Productos \n\n");
 
@@ -112,8 +108,8 @@ public class Reportes {
             //agregamos los datos
             documento.add(header);
             documento.add(parrafo);
-            
-            float[] columnsWidths = {3, 5, 4, 5, 7, 5, 6};
+
+            float[] columnsWidths = {3, 5, 4, 5, 7, 5};
 
             PdfPTable tabla = new PdfPTable(columnsWidths);
             tabla.addCell("Codigo");
@@ -121,35 +117,31 @@ public class Reportes {
             tabla.addCell("Cant.");
             tabla.addCell("Precio");
             tabla.addCell("Descripcion");
-            tabla.addCell("Por. Iva");
             tabla.addCell("Categoria");
 
             try {
                 Connection cn = Conexion.conectar();
                 PreparedStatement pst = cn.prepareStatement(
-                        "select p.idProducto, p.nombre, p.cantidad, p.precio, p.descripcion, "
-                                + "p.porcentajeIva, c.descripcion as categoria, p.estado "
-                                + "from tb_producto as p, tb_categoria as c "
-                                + "where p.idCategoria = c.idCategoria;");
+                        "select p.idProducto, p.nombre, p.cantidad, p.precio, p.descripcion, \n"
+                        + "       c.descripcion as categoria, p.estado\n"
+                        + "from tb_producto as p, tb_categoria as c\n"
+                        + "where p.idCategoria = c.idCategoria;");
                 ResultSet rs = pst.executeQuery();
-                if (rs.next()) {
-                    do {
-                        tabla.addCell(rs.getString(1));
-                        tabla.addCell(rs.getString(2));
-                        tabla.addCell(rs.getString(3));
-                        tabla.addCell(rs.getString(4));
-                        tabla.addCell(rs.getString(5));
-                        tabla.addCell(rs.getString(6));
-                        tabla.addCell(rs.getString(7));
-                    } while (rs.next());
-                    documento.add(tabla);
+                while (rs.next()) {
+                    tabla.addCell(rs.getString(1)); // Código
+                    tabla.addCell(rs.getString(2)); // Nombre
+                    tabla.addCell(rs.getString(3)); // Cantidad
+                    tabla.addCell(rs.getString(4)); // Precio
+                    tabla.addCell(rs.getString(5)); // Descripción
+                    tabla.addCell(rs.getString(6)); // Categoría
                 }
+                documento.add(tabla);
 
             } catch (SQLException e) {
                 System.out.println("Error 4 en: " + e);
             }
             documento.close();
-            
+
             JOptionPane.showMessageDialog(null, "Reporte creado");
 
         } catch (DocumentException e) {
@@ -160,8 +152,8 @@ public class Reportes {
             System.out.println("Error 3 en: " + ex);
         }
     }
-    
-        /* ********************************************************************
+
+    /* ********************************************************************
     * metodo para crear reportes de los categorias registrados en el sistema
     *********************************************************************** */
     public void ReportesCategorias() {
@@ -169,13 +161,13 @@ public class Reportes {
         try {
             String ruta = System.getProperty("user.home");
             PdfWriter.getInstance(documento, new FileOutputStream(ruta + "/Desktop/Reporte_Categorias.pdf"));
-            Image header = Image.getInstance("src/img/header1.jpg");
+            Image header = Image.getInstance("src/img/header.png");
             header.scaleToFit(650, 1000);
             header.setAlignment(Chunk.ALIGN_CENTER);
             //formato al texto
             Paragraph parrafo = new Paragraph();
             parrafo.setAlignment(Paragraph.ALIGN_CENTER);
-            parrafo.add("Reporte creado por \nEdison Zambrano © Programador Fantasma\n\n");
+            parrafo.add("Reporte creado por \nPersonal de Naranja Mecánica\n\n");
             parrafo.setFont(FontFactory.getFont("Tahoma", 18, Font.BOLD, BaseColor.DARK_GRAY));
             parrafo.add("Reporte de Categorias \n\n");
 
@@ -207,7 +199,7 @@ public class Reportes {
                 System.out.println("Error 4 en: " + e);
             }
             documento.close();
-            
+
             JOptionPane.showMessageDialog(null, "Reporte creado");
 
         } catch (DocumentException e) {
@@ -218,8 +210,8 @@ public class Reportes {
             System.out.println("Error 3 en: " + ex);
         }
     }
-    
-        /* ********************************************************************
+
+    /* ********************************************************************
     * metodo para crear reportes de las ventas registrados en el sistema
     *********************************************************************** */
     public void ReportesVentas() {
@@ -227,13 +219,13 @@ public class Reportes {
         try {
             String ruta = System.getProperty("user.home");
             PdfWriter.getInstance(documento, new FileOutputStream(ruta + "/Desktop/Reporte_Ventas.pdf"));
-            Image header = Image.getInstance("src/img/header1.jpg");
+            Image header = Image.getInstance("src/img/header.png");
             header.scaleToFit(650, 1000);
             header.setAlignment(Chunk.ALIGN_CENTER);
             //formato al texto
             Paragraph parrafo = new Paragraph();
             parrafo.setAlignment(Paragraph.ALIGN_CENTER);
-            parrafo.add("Reporte creado por \nEdison Zambrano © Programador Fantasma\n\n");
+            parrafo.add("Reporte creado por \nPersonal de Naranja Mecánica\n\n");
             parrafo.setFont(FontFactory.getFont("Tahoma", 18, Font.BOLD, BaseColor.DARK_GRAY));
             parrafo.add("Reporte de Ventas \n\n");
 
@@ -241,7 +233,7 @@ public class Reportes {
             //agregamos los datos
             documento.add(header);
             documento.add(parrafo);
-            
+
             float[] columnsWidths = {3, 9, 4, 5, 3};
 
             PdfPTable tabla = new PdfPTable(columnsWidths);
@@ -254,10 +246,10 @@ public class Reportes {
             try {
                 Connection cn = Conexion.conectar();
                 PreparedStatement pst = cn.prepareStatement(
-                        "select cv.idCabeceraVenta as id, concat(c.nombre, ' ', c.apellido) as cliente, "
-                                + "cv.valorPagar as total, cv.fechaVenta as fecha, cv.estado "
-                                + "from tb_cabecera_venta as cv, tb_cliente as c "
-                                + "where cv.idCliente = c.idCliente;");
+                        "select cv.idVentas as id, concat(c.nombre, ' ', c.apellido) as cliente, "
+                        + "cv.valorPagar as total, cv.fechaVenta as fecha, cv.estado "
+                        + "from tb_ventas as cv, tb_cliente as c "
+                        + "where cv.idCliente = c.idCliente;");
                 ResultSet rs = pst.executeQuery();
                 if (rs.next()) {
                     do {
@@ -275,7 +267,7 @@ public class Reportes {
                 System.out.println("Error 4 en: " + e);
             }
             documento.close();
-            
+
             JOptionPane.showMessageDialog(null, "Reporte creado");
 
         } catch (DocumentException e) {

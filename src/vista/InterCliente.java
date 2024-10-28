@@ -6,10 +6,7 @@ import java.awt.Dimension;
 import javax.swing.JOptionPane;
 import modelo.Cliente;
 
-/**
- *
- * @author ediso
- */
+
 public class InterCliente extends javax.swing.JInternalFrame {
 
     public InterCliente() {
@@ -89,7 +86,7 @@ public class InterCliente extends javax.swing.JInternalFrame {
 
         jButton_Guardar.setBackground(new java.awt.Color(0, 204, 204));
         jButton_Guardar.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jButton_Guardar.setText("Añadir Usuario");
+        jButton_Guardar.setText("Añadir Cliente");
         jButton_Guardar.setActionCommand("Añadir Cliente");
         jButton_Guardar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

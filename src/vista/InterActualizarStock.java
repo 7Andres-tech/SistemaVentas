@@ -10,10 +10,7 @@ import java.sql.Statement;
 import javax.swing.JOptionPane;
 import modelo.Producto;
 
-/**
- *
- * @author ediso
- */
+
 public class InterActualizarStock extends javax.swing.JInternalFrame {
 
     //variables

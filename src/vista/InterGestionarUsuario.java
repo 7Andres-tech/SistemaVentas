@@ -19,10 +19,7 @@ import javax.swing.table.DefaultTableModel;
 import modelo.Cliente;
 import modelo.Usuario;
 
-/**
- *
- * @author ediso
- */
+
 public class InterGestionarUsuario extends javax.swing.JInternalFrame {
 
     private int idUsuario = 0;
