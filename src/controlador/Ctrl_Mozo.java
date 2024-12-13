@@ -10,32 +10,36 @@ import javax.swing.JOptionPane;
 import modelo.Cliente;
 import modelo.Mozo;
 
-
 public class Ctrl_Mozo {
 
     /**
      * **************************************************
-     * metodo para guardar un nuevo usuario
+     * metodo para guardar un nuevo mozo
      * **************************************************
      */
     public boolean guardar(Mozo objeto) {
         boolean respuesta = false;
         Connection cn = Conexion.conectar();
         try {
-            PreparedStatement consulta = cn.prepareStatement("insert into tb_Mozo values(?,?,?,?,?,?,?)");
-            consulta.setInt(1, 0);//id
-            consulta.setString(2, objeto.getNombre());
-            consulta.setString(3, objeto.getDireccion());
-            consulta.setString(4, objeto.getCorreo());
-            consulta.setString(5, objeto.getPassword());
-            consulta.setString(6, objeto.getTelefono());
-            consulta.setInt(7, objeto.getDNI());
+            // Consulta ajustada (asumiendo que 'id' es AUTO_INCREMENT)
+            PreparedStatement consulta = cn.prepareStatement(
+                    "INSERT INTO tb_Mozo (nombre, direccion, correo, password, telefono, DNI) VALUES (?, ?, ?, ?, ?, ?)"
+            );
+            consulta.setString(1, objeto.getNombre());
+            consulta.setString(2, objeto.getDireccion());
+            consulta.setString(3, objeto.getCorreo());
+            consulta.setString(4, objeto.getPassword());
+            consulta.setString(5, objeto.getTelefono());
+            consulta.setInt(6, objeto.getDni());
+
+            // Ejecutar consulta
             if (consulta.executeUpdate() > 0) {
                 respuesta = true;
             }
             cn.close();
         } catch (SQLException e) {
-            System.out.println("Error al guardar usuario: " + e);
+            System.out.println("Error al guardar mozo: " + e.getMessage());
+            e.printStackTrace(); // Esto mostrará la traza completa del error en la consola
         }
         return respuesta;
     }
@@ -45,15 +49,13 @@ public class Ctrl_Mozo {
      * metodo para consultar si el producto ya esta registrado en la BBDD
      * ********************************************************************
      */
-    public boolean existeMozo(String mozo) {
+    public boolean existeMozo(String correo) {
         boolean respuesta = false;
-        String sql = "SELECT mozo FROM tb_Mozo WHERE mozo = ?;"; // Usamos un placeholder para PreparedStatement
+        String sql = "SELECT correo FROM tb_Mozo WHERE correo = ?;"; // Cambia 'mozo' a 'correo'
 
-        try (Connection cn = Conexion.conectar(); PreparedStatement pst = cn.prepareStatement(sql)) { // Usa PreparedStatement
-
-            pst.setString(1, mozo); // Establece el valor del placeholder
-
-            try (ResultSet rs = pst.executeQuery()) { // Cierra automáticamente el ResultSet
+        try (Connection cn = Conexion.conectar(); PreparedStatement pst = cn.prepareStatement(sql)) {
+            pst.setString(1, correo); // Establece el valor del placeholder
+            try (ResultSet rs = pst.executeQuery()) {
                 respuesta = rs.next(); // Si hay un resultado, 'respuesta' será true
             }
         } catch (SQLException e) {
@@ -68,23 +70,22 @@ public class Ctrl_Mozo {
      * **************************************************
      */
     public boolean loginMozo(Mozo objeto) {
-    boolean respuesta = false;
-    String sql = "SELECT * FROM tb_Mozo WHERE correo = ? AND password = ?"; // Usamos placeholders
+        boolean respuesta = false;
+        String sql = "SELECT * FROM tb_Mozo WHERE correo = ? AND password = ?"; // Usamos placeholders
 
-    try (Connection cn = Conexion.conectar(); PreparedStatement pst = cn.prepareStatement(sql)) { // Usa PreparedStatement
-        pst.setString(1, objeto.getCorreo()); // Establece el valor del placeholder para 'correo'
-        pst.setString(2, objeto.getPassword()); // Establece el valor del placeholder para 'password'
+        try (Connection cn = Conexion.conectar(); PreparedStatement pst = cn.prepareStatement(sql)) { // Usa PreparedStatement
+            pst.setString(1, objeto.getCorreo()); // Establece el valor del placeholder para 'correo'
+            pst.setString(2, objeto.getPassword()); // Establece el valor del placeholder para 'password'
 
-        try (ResultSet rs = pst.executeQuery()) { // Cierra automáticamente el ResultSet
-            respuesta = rs.next(); // Si hay un resultado, 'respuesta' será true
+            try (ResultSet rs = pst.executeQuery()) { // Cierra automáticamente el ResultSet
+                respuesta = rs.next(); // Si hay un resultado, 'respuesta' será true
+            }
+        } catch (SQLException e) {
+            System.out.println("Error al iniciar sesión: " + e);
+            JOptionPane.showMessageDialog(null, "Error al iniciar sesión");
         }
-    } catch (SQLException e) {
-        System.out.println("Error al iniciar sesión: " + e);
-        JOptionPane.showMessageDialog(null, "Error al iniciar sesión");
+        return respuesta;
     }
-    return respuesta;
-}
-
 
     /**
      * **************************************************
@@ -102,7 +103,7 @@ public class Ctrl_Mozo {
             consulta.setString(3, objeto.getCorreo());
             consulta.setString(4, objeto.getPassword());
             consulta.setString(5, objeto.getTelefono());
-            consulta.setInt(6, objeto.getDNI());
+            consulta.setInt(6, objeto.getDni());
             consulta.setInt(7, idMozo); // Establece el valor para el id del mozo a actualizar
 
             if (consulta.executeUpdate() > 0) {

@@ -1,6 +1,7 @@
 package vista;
 
 import controlador.Ctrl_Mozo;
+import java.awt.Color;
 import java.awt.Dimension;
 import javax.swing.JOptionPane;
 import modelo.Mozo;
@@ -157,7 +158,7 @@ public class InterMozo extends javax.swing.JInternalFrame {
 
                 // Convertir el DNI a entero, ya que es de tipo int
                 try {
-                    mozo.setDNI(Integer.parseInt(txt_dni.getText().trim()));
+                    mozo.setDni(Integer.parseInt(txt_dni.getText().trim()));
                 } catch (NumberFormatException e) {
                     JOptionPane.showMessageDialog(null, "DNI debe ser un número");
                     return; // Salir si el DNI no es un número válido
@@ -165,11 +166,16 @@ public class InterMozo extends javax.swing.JInternalFrame {
 
                 if (controlMozo.guardar(mozo)) {
                     JOptionPane.showMessageDialog(null, "¡Mozo Registrado!");
+                    txt_nombre.setBackground(Color.green);
+                    txt_correo.setBackground(Color.green);
+                    txt_dni.setBackground(Color.green);
+                    txt_telefono.setBackground(Color.green);
+                    txt_direccion.setBackground(Color.green);
                 } else {
                     JOptionPane.showMessageDialog(null, "¡Error al registrar Mozo!");
                 }
             } else {
-                JOptionPane.showMessageDialog(null, "El Usuario ya esta registrado, ingrese otro.");
+                JOptionPane.showMessageDialog(null, "El Mozo ya esta registrado, ingrese otro.");
             }
         }
         this.Limpiar();

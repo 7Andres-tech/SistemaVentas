@@ -438,15 +438,15 @@ public class FrmMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem_cerrar_sesionActionPerformed
 
     private void jMenuItem_nuevo_usuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_nuevo_usuarioActionPerformed
-        InterMozo interUsuario = new InterMozo();
-        jDesktopPane_menu.add(interUsuario);
-        interUsuario.setVisible(true);
+        InterMozo interMozo= new InterMozo();
+        jDesktopPane_menu.add(interMozo);
+        interMozo.setVisible(true);
     }//GEN-LAST:event_jMenuItem_nuevo_usuarioActionPerformed
 
     private void jMenuItem_gestionar_usuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_gestionar_usuarioActionPerformed
-        InterGestionarMozo interGestionarUsuario = new InterGestionarMozo();
-        jDesktopPane_menu.add(interGestionarUsuario);
-        interGestionarUsuario.setVisible(true);
+        InterGestionarMozo interGestionarMozo = new InterGestionarMozo();
+        jDesktopPane_menu.add(interGestionarMozo);
+        interGestionarMozo.setVisible(true);
     }//GEN-LAST:event_jMenuItem_gestionar_usuarioActionPerformed
 
     private void jMenuItem_nueva_ventaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_nueva_ventaActionPerformed

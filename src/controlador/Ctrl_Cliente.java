@@ -8,23 +8,21 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import modelo.Cliente;
 
-
 public class Ctrl_Cliente {
-    
-    
-    
+
     public boolean guardar(Cliente objeto) {
         boolean respuesta = false;
         Connection cn = Conexion.conectar();
         try {
-            PreparedStatement consulta = cn.prepareStatement("insert into tb_cliente values(?,?,?,?,?,?,?)");
-            consulta.setInt(1, 0);//id
-            consulta.setString(2, objeto.getNombre());
-            consulta.setString(3, objeto.getApellido());
-            consulta.setString(4, objeto.getCedula());
-            consulta.setString(5, objeto.getTelefono());
-            consulta.setString(6, objeto.getDireccion());
-            consulta.setInt(7, objeto.getEstado());
+            PreparedStatement consulta = cn.prepareStatement(
+                    "INSERT INTO tb_cliente (nombre, apellido, dni, telefono, direccion, estado) VALUES (?, ?, ?, ?, ?, ?)"
+            );
+            consulta.setString(1, objeto.getNombre());
+            consulta.setString(2, objeto.getApellido());
+            consulta.setInt(3, objeto.getDni());
+            consulta.setString(4, objeto.getTelefono());
+            consulta.setString(5, objeto.getDireccion());
+            consulta.setInt(6, objeto.getEstado());
             if (consulta.executeUpdate() > 0) {
                 respuesta = true;
             }
@@ -40,21 +38,22 @@ public class Ctrl_Cliente {
      * metodo para consultar si el producto ya esta registrado en la BBDD
      * ********************************************************************
      */
-    public boolean existeCliente(String cedula) {
-        boolean respuesta = false;
-        String sql = "select cedula from tb_cliente where cedula = '" + cedula + "';";
-        Statement st;
+    public boolean existeCliente(int dni) {
+        boolean existe = false;
+        Connection cn = Conexion.conectar();
         try {
-            Connection cn = Conexion.conectar();
-            st = cn.createStatement();
-            ResultSet rs = st.executeQuery(sql);
-            while (rs.next()) {
-                respuesta = true;
+            String sql = "SELECT COUNT(*) FROM tb_Cliente WHERE DNI = ?";
+            PreparedStatement consulta = cn.prepareStatement(sql);
+            consulta.setInt(1, dni); // Ajuste para pasar un int
+            ResultSet rs = consulta.executeQuery();
+            if (rs.next()) {
+                existe = rs.getInt(1) > 0; // Si el conteo es mayor a 0, existe
             }
+            cn.close();
         } catch (SQLException e) {
-            System.out.println("Error al consultar cliente: " + e);
+            System.out.println("Error al verificar si el cliente existe: " + e);
         }
-        return respuesta;
+        return existe;
     }
 
     /**
@@ -67,10 +66,10 @@ public class Ctrl_Cliente {
         Connection cn = Conexion.conectar();
         try {
 
-            PreparedStatement consulta = cn.prepareStatement("update tb_cliente set nombre=?, apellido = ?, cedula = ?, telefono= ?, direccion = ?, estado = ? where idCliente ='" + idCliente + "'");
+            PreparedStatement consulta = cn.prepareStatement("update tb_cliente set nombre=?, apellido = ?, DNI = ?, telefono= ?, direccion = ?, estado = ? where idCliente ='" + idCliente + "'");
             consulta.setString(1, objeto.getNombre());
             consulta.setString(2, objeto.getApellido());
-            consulta.setString(3, objeto.getCedula());
+            consulta.setInt(3, objeto.getDni());
             consulta.setString(4, objeto.getTelefono());
             consulta.setString(5, objeto.getDireccion());
             consulta.setInt(6, objeto.getEstado());

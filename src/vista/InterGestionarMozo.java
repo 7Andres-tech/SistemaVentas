@@ -209,7 +209,7 @@ public class InterGestionarMozo extends javax.swing.JInternalFrame {
                 // Convertir el DNI a entero, ya que es de tipo int
                 try {
                     int dni = Integer.parseInt(txt_dni.getText().trim());
-                    mozo.setDNI(dni); // Establecer el DNI en el objeto mozo
+                    mozo.setDni(dni); // Establecer el DNI en el objeto mozo
                 } catch (NumberFormatException e) {
                     JOptionPane.showMessageDialog(null, "DNI debe ser un número");
                     return; // Salir si el DNI no es un número válido

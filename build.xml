@@ -5,69 +5,42 @@
 <!-- By default, only the Clean and Build commands use this build script. -->
 <!-- Commands such as Run, Debug, and Test only use this build script if -->
 <!-- the Compile on Save feature is turned off for the project. -->
-<!-- You can turn off the Compile on Save (or Deploy on Save) setting -->
-<!-- in the project's Project Properties dialog box.-->
-<project name="SistemaDeventas1" default="default" basedir=".">
+<project name="SistemaDeventas1" default="test" basedir=".">
     <description>Builds, tests, and runs the project SistemaDeventas1.</description>
+
+    <!-- Importar configuración predeterminada de NetBeans -->
     <import file="nbproject/build-impl.xml"/>
-    <!--
 
-    There exist several targets which are by default empty and which can be 
-    used for execution of your tasks. These targets are usually executed 
-    before and after some main targets. They are: 
+    <!-- Definir el classpath para JUnit -->
+    <path id="test.classpath">
+        <pathelement location="build/classes"/> <!-- Clases compiladas -->
+        <pathelement location="lib/junit-5.10.2.jar"/> <!-- Ruta a JUnit -->
+        <pathelement location="lib/hamcrest-core-2.2.jar"/> <!-- Dependencia de JUnit -->
+    </path>
 
-      -pre-init:                 called before initialization of project properties
-      -post-init:                called after initialization of project properties
-      -pre-compile:              called before javac compilation
-      -post-compile:             called after javac compilation
-      -pre-compile-single:       called before javac compilation of single file
-      -post-compile-single:      called after javac compilation of single file
-      -pre-compile-test:         called before javac compilation of JUnit tests
-      -post-compile-test:        called after javac compilation of JUnit tests
-      -pre-compile-test-single:  called before javac compilation of single JUnit test
-      -post-compile-test-single: called after javac compilation of single JUunit test
-      -pre-jar:                  called before JAR building
-      -post-jar:                 called after JAR building
-      -post-clean:               called after cleaning build products
+    <!-- Target para compilar el proyecto -->
+    <target name="compile" depends="-pre-init, -init-macrodef-javac, -init-macrodef-debug, -init-macrodef-java, -do-compile">
+        <echo message="Compilando el proyecto SistemaDeventas1..."/>
+    </target>
 
-    (Targets beginning with '-' are not intended to be called on their own.)
+    <!-- Target para ejecutar pruebas -->
+    <target name="test" depends="compile">
+        <echo message="Ejecutando pruebas..."/>
+        <junit printsummary="yes" haltonfailure="yes">
+            <classpath refid="test.classpath"/>
+            <batchtest>
+                <fileset dir="test"> <!-- Ruta a los archivos de prueba -->
+                    <include name="**/*Test.java"/>
+                </fileset>
+            </batchtest>
+            <formatter type="plain"/> <!-- Formato de salida -->
+        </junit>
+    </target>
 
-    Example of inserting an obfuscator after compilation could look like this:
+    <!-- Target para limpiar el proyecto -->
+    <target name="clean">
+        <delete dir="build"/>
+        <echo message="Proyecto limpiado exitosamente."/>
+    </target>
 
-        <target name="-post-compile">
-            <obfuscate>
-                <fileset dir="${build.classes.dir}"/>
-            </obfuscate>
-        </target>
-
-    For list of available properties check the imported 
-    nbproject/build-impl.xml file. 
-
-
-    Another way to customize the build is by overriding existing main targets.
-    The targets of interest are: 
-
-      -init-macrodef-javac:     defines macro for javac compilation
-      -init-macrodef-junit:     defines macro for junit execution
-      -init-macrodef-debug:     defines macro for class debugging
-      -init-macrodef-java:      defines macro for class execution
-      -do-jar:                  JAR building
-      run:                      execution of project 
-      -javadoc-build:           Javadoc generation
-      test-report:              JUnit report generation
-
-    An example of overriding the target for project execution could look like this:
-
-        <target name="run" depends="SistemaDeventas1-impl.jar">
-            <exec dir="bin" executable="launcher.exe">
-                <arg file="${dist.jar}"/>
-            </exec>
-        </target>
-
-    Notice that the overridden target depends on the jar target and not only on 
-    the compile target as the regular run target does. Again, for a list of available 
-    properties which you can use, check the target you are overriding in the
-    nbproject/build-impl.xml file. 
-
-    -->
 </project>

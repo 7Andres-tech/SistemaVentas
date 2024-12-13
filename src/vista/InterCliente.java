@@ -109,18 +109,22 @@ public class InterCliente extends javax.swing.JInternalFrame {
         Cliente cliente = new Cliente();
         Ctrl_Cliente controlCliente = new Ctrl_Cliente();
 
-        if (!txt_nombre.getText().isEmpty() && !txt_apellido.getText().isEmpty() && !txt_dni.getText().isEmpty()) {
-            //JOptionPane.showMessageDialog(null, "Correcto");
+         if (!txt_nombre.getText().isEmpty() && !txt_apellido.getText().isEmpty() && !txt_dni.getText().isEmpty()) {
+             
+        try {
+            // Convertir el DNI a int
+            int dni = Integer.parseInt(txt_dni.getText().trim());
 
-            if (!controlCliente.existeCliente(txt_dni.getText().trim())) {
+              if (!controlCliente.existeCliente(dni)) {
 
                 cliente.setNombre(txt_nombre.getText().trim());
                 cliente.setApellido(txt_apellido.getText().trim());
-                cliente.setCedula(txt_dni.getText().trim());
                 cliente.setTelefono(txt_telefono.getText().trim());
                 cliente.setDireccion(txt_direccion.getText().trim());
                 cliente.setEstado(1);
-
+                cliente.setDni(dni);
+                
+                  // Guardar el cliente
                 if (controlCliente.guardar(cliente)) {
                     JOptionPane.showMessageDialog(null, "Registro Guardado");
                     txt_nombre.setBackground(Color.green);
@@ -132,22 +136,28 @@ public class InterCliente extends javax.swing.JInternalFrame {
                     JOptionPane.showMessageDialog(null, "Error al Guardar");
                 }
 
-            } else {
-                JOptionPane.showMessageDialog(null, "El cliente ya esta registrado en la Base de Datos.");
+
+                } else {
+                JOptionPane.showMessageDialog(null, "El cliente ya está registrado en la Base de Datos.");
                 txt_nombre.setBackground(Color.white);
                 txt_apellido.setBackground(Color.white);
                 txt_dni.setBackground(Color.white);
                 txt_telefono.setBackground(Color.white);
                 txt_direccion.setBackground(Color.white);
             }
-        } else {
-            JOptionPane.showMessageDialog(null, "Completa todos los campos");
-            txt_nombre.setBackground(Color.red);
-            txt_apellido.setBackground(Color.red);
-            txt_dni.setBackground(Color.red);
-            txt_telefono.setBackground(Color.red);
-            txt_direccion.setBackground(Color.red);
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "El DNI debe ser un número válido.");
         }
+
+             } else {
+        JOptionPane.showMessageDialog(null, "Completa todos los campos.");
+        txt_nombre.setBackground(Color.red);
+        txt_apellido.setBackground(Color.red);
+        txt_dni.setBackground(Color.red);
+        txt_telefono.setBackground(Color.red);
+        txt_direccion.setBackground(Color.red);
+    }
+
         //metodo limpiar
         this.Limpiar();
 

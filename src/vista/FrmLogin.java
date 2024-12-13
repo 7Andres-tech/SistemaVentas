@@ -262,7 +262,7 @@ public class FrmLogin extends javax.swing.JFrame {
                 menu.setVisible(true);
                 this.dispose();
             } else {
-                JOptionPane.showMessageDialog(null, "Usuario o Clave Incorrectos");
+                JOptionPane.showMessageDialog(null, "Mozo o Clave Incorrectos");
             }
         } else {
             JOptionPane.showMessageDialog(null, "Ingrese sus credenciales");

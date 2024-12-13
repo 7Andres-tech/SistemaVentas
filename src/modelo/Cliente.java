@@ -6,7 +6,7 @@ public class Cliente {
     private int idCliente;
     private String nombre;
     private String apellido;
-    private String cedula;
+    private int dni;
     private String telefono;
     private String direccion;
     private int estado;
@@ -16,18 +16,18 @@ public class Cliente {
         this.idCliente = 0;
         this.nombre = "";
         this.apellido = "";
-        this.cedula = "";
+        this.dni = 0;
         this.telefono = "";
         this.direccion = "";
         this.estado = 0;
     }
 
     //Constructor sobrecargado
-    public Cliente(int idCliente, String nombre, String apellido, String cedula, String telefono, String direccion, int estado) {
+    public Cliente(int idCliente, String nombre, String apellido, int dni, String telefono, String direccion, int estado) {
         this.idCliente = idCliente;
         this.nombre = nombre;
         this.apellido = apellido;
-        this.cedula = cedula;
+        this.dni = dni;
         this.telefono = telefono;
         this.direccion = direccion;
         this.estado = estado;
@@ -58,12 +58,12 @@ public class Cliente {
         this.apellido = apellido;
     }
 
-    public String getCedula() {
-        return cedula;
+    public int getDni() {
+        return dni;
     }
 
-    public void setCedula(String cedula) {
-        this.cedula = cedula;
+    public void setDni(int dni) {
+        this.dni = dni;
     }
 
     public String getTelefono() {

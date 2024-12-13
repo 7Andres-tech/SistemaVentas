@@ -186,9 +186,16 @@ public class InterGestionarCliente extends javax.swing.JInternalFrame {
 
             cliente.setNombre(txt_nombre.getText().trim());
             cliente.setApellido(txt_apellido.getText().trim());
-            cliente.setCedula(txt_dni.getText().trim());
             cliente.setTelefono(txt_telefono.getText().trim());
             cliente.setDireccion(txt_direccion.getText().trim());
+            
+             try {
+                    int dni = Integer.parseInt(txt_dni.getText().trim());
+                    cliente.setDni(dni); // Establecer el DNI en el objeto mozo
+                } catch (NumberFormatException e) {
+                    JOptionPane.showMessageDialog(null, "DNI debe ser un número");
+                    return; // Salir si el DNI no es un número válido
+                }
 
             if (controlCliente.actualizar(cliente, idCliente)) {
                 JOptionPane.showMessageDialog(null, "¡Datos del cliente actualizados!");

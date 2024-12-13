@@ -28,7 +28,7 @@ public class Mozo {
         return idMozo;
     }
 
-    public void setIdUsuario(int idMozo) {
+    public void setIdMozo(int idMozo) {
         this.idMozo = idMozo;
     }
 
@@ -72,11 +72,11 @@ public class Mozo {
         this.telefono = telefono;
     }
     
-     public int getDNI() {
+     public int getDni() {
         return dni;
     }
 
-    public void setDNI(int dni) {
+    public void setDni(int dni) {
         this.dni = dni;
     }
     
